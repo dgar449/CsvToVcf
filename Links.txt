@@ -1,0 +1,2 @@
+https://stackoverflow.com/questions/1050112/how-to-read-a-csv-file-into-a-net-datatable
+https://weblogs.asp.net/gunnarpeipman/creating-vcard-with-image-in-net
