@@ -6242,11 +6242,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\daryl\\Documents\\Visual Studio 2019\\Stuff\\CsvToVcf\\CsvToVcf.csproj",
+      "projectUniqueName": "C:\\Users\\daryl\\Documents\\GitHub\\CsvToVcf\\CsvToVcf.csproj",
       "projectName": "CsvToVcf",
-      "projectPath": "C:\\Users\\daryl\\Documents\\Visual Studio 2019\\Stuff\\CsvToVcf\\CsvToVcf.csproj",
+      "projectPath": "C:\\Users\\daryl\\Documents\\GitHub\\CsvToVcf\\CsvToVcf.csproj",
       "packagesPath": "C:\\Users\\daryl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\daryl\\Documents\\Visual Studio 2019\\Stuff\\CsvToVcf\\obj\\",
+      "outputPath": "C:\\Users\\daryl\\Documents\\GitHub\\CsvToVcf\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
