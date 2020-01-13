@@ -12,25 +12,33 @@ namespace CsvToVcf.Models
         public static DataTable ConvertCSVtoDataTable(string strFilePath)
         {
             DataTable dt = new DataTable();
-            using (StreamReader sr = new StreamReader(strFilePath))
+            try
             {
-                string[] headers = sr.ReadLine().Split(',');
-                foreach (string header in headers)
+                using (StreamReader sr = new StreamReader(strFilePath))
                 {
-                    dt.Columns.Add(header);
-                }
-                while (!sr.EndOfStream)
-                {
-                    string[] rows = sr.ReadLine().Split(',');
-                    DataRow dr = dt.NewRow();
-                    for (int i = 0; i < headers.Length; i++)
+                    string[] headers = sr.ReadLine().Split(',');
+                    foreach (string header in headers)
                     {
-                        dr[i] = rows[i];
+                        dt.Columns.Add(header);
                     }
-                    dt.Rows.Add(dr);
-                }
+                    while (!sr.EndOfStream)
+                    {
+                        string[] rows = sr.ReadLine().Split(',');
+                        DataRow dr = dt.NewRow();
+                        for (int i = 0; i < headers.Length; i++)
+                        {
+                            dr[i] = rows[i];
+                        }
+                        dt.Rows.Add(dr);
+                    }
 
+                }
             }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+            
             return dt;
         }
 
