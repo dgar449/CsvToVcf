@@ -9,6 +9,7 @@ using System.Data;
 using CsvToVcf.Models;
 using System.IO;
 using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace CsvToVcf.Controllers
 {
@@ -27,28 +28,39 @@ namespace CsvToVcf.Controllers
             DatatableToVcf.ConvertDatatableToVcf(dTable);
             //return View();
         }
-        [HttpPost]
-        public ActionResult Upload()
+
+        [HttpPost("UploadFiles")]
+        public async Task<IActionResult> Post(List<IFormFile> files)
         {
-            //if (Request.Files.Count > 0)
-            //{
-            //    var file = Request.Files[0];
+            long size = files.Sum(f => f.Length);
 
-            //    if (file != null && file.ContentLength > 0)
-            //    {
-            //        var fileName = Path.GetFileName(file.FileName);
-            //        var path = Path.Combine(Server.MapPath("~/Images/"), fileName);
-            //        file.SaveAs(path);
-            //    }
-            //}
+            // full path to file in temp location
+            var filePath = Path.GetTempFileName();
 
-            return RedirectToAction("UploadDocument");
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                        System.Diagnostics.Debug.WriteLine("Yo your file uploaded!!");
+                    }
+                }
+            }
+
+            // process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
+            return Ok(new { count = files.Count, size, filePath });
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
+
 
         public IActionResult Privacy()
         {
