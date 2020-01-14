@@ -20,17 +20,17 @@ namespace CsvToVcf.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            System.Diagnostics.Debug.WriteLine("This is sparta");
-            DataTable dTable;
-            string fPath = Directory.GetCurrentDirectory() + "\\SimpleData.csv";
-            dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);
-            System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
-            DatatableToVcf.ConvertDatatableToVcf(dTable);
+            //System.Diagnostics.Debug.WriteLine("This is sparta");
+            //DataTable dTable;
+            //string fPath = Directory.GetCurrentDirectory() + "\\SimpleData.csv";
+            //dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);
+            //System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
+            //DatatableToVcf.ConvertDatatableToVcf(dTable);
             //return View();
         }
 
-        [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        [HttpPost]
+        public async Task<IActionResult> Index(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
 

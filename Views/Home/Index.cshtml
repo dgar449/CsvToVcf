@@ -5,9 +5,15 @@
 <div>
     <h1>Welcome to the CSV to VCF online converter</h1>
 </div>
-@{
-    <div>
-        <p>Upload your csv file here</p><br>
-        <input id="CsvFile" type="file" /><br>
-        <p><a id="ConvertToVcf" href="#" class="btn">Convert</a></p>
-    </div>}
+<div>
+    <h1>Welcome to the CSV to VCF online converter</h1>
+    <p>Upload your csv file here</p><br>
+    <form method="post">
+          <input id="CsvFile" type="file" /><br>
+        
+        <p>
+            <button type="submit">Convert</button>
+            @*<a id="ConvertToVcf" href="#" class="btn">Convert</a>*@
+        </p>
+    </form>
+</div>
