@@ -419,7 +419,6 @@ C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netc
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\CsvToVcf.TagHelpers.input.cache
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\CsvToVcf.TagHelpers.output.cache
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\CsvToVcf.RazorCoreGenerate.cache
-C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\Razor\Views\Default1\Index.cshtml.g.cs
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Admin\Documents\Visual Studio 2019\Trial\Sample\CsvToVcf\obj\Debug\netcoreapp3.0\Razor\Views\Shared\Error.cshtml.g.cs
