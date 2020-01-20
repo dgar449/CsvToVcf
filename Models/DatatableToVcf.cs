@@ -9,12 +9,13 @@ namespace CsvToVcf.Models
 {
     public class DatatableToVcf
     {
-        public static DataTable ConvertDatatableToVcf(DataTable dt)
+        public static string ConvertDatatableToVcf(DataTable dt, string fName)
         {
             var myCard = new vCard();
             int num;
             try
             {
+
                 foreach (DataRow dataRow in dt.Rows)
                 {
                     num = 0;
@@ -29,7 +30,7 @@ namespace CsvToVcf.Models
                     num++;
                     myCard.Mobile = Convert.ToString(dataRow.ItemArray[num]);
 
-                    using (var file = System.IO.File.Open(Directory.GetCurrentDirectory() + "\\me.vcf", FileMode.Append))
+                    using (var file = System.IO.File.Open(Directory.GetCurrentDirectory() + "\\" + fName + ".vcf", FileMode.Append))
                     using (var writer = new StreamWriter(file))
                     {
                         writer.Write(myCard.ToString());
@@ -41,13 +42,14 @@ namespace CsvToVcf.Models
 
                     var datre = DateTime.Now;
                 }
+                return fName+".vcf";
             }
             catch(Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
             }
             
-            return dt;
+            return fName + ".vcf";
         }
     }
 }

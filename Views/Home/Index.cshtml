@@ -7,12 +7,15 @@
 </div>
 <div>
     <p>Upload your csv file here</p><br>
-    <form method="post">
-          <input id="CsvFile" type="file" /><br>
+    <form method="post" enctype="multipart/form-data">
+          <input name="file" type="file" /><br>
         
         <p>
             <button type="submit">Convert</button>
             @*<a id="ConvertToVcf" href="#" class="btn">Convert</a>*@
         </p>
+    </form>
+    <form method="post" enctype="multipart/form-data">
+        <a asp-action="Download">Download</a>
     </form>
 </div>

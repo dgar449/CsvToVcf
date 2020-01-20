@@ -9,6 +9,7 @@ using System.Data;
 using CsvToVcf.Models;
 using System.IO;
 using System.Web;
+using System.Net;
 using Microsoft.AspNetCore.Http;
 
 namespace CsvToVcf.Controllers
@@ -16,7 +17,7 @@ namespace CsvToVcf.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        public static string vcfFileName;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -30,39 +31,92 @@ namespace CsvToVcf.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(List<IFormFile> files)
+        public async Task<IActionResult> Index(IFormFile file)
         {
-            long size = files.Sum(f => f.Length);
+            // Extract file name from whatever was posted by browser
+            var fileName = System.IO.Path.GetFileName(file.FileName);
 
-            var filePaths = new List<string>();
-            foreach (var formFile in files)
+            // If file with same name exists delete it
+            if (System.IO.File.Exists(fileName))
             {
-                if (formFile.Length > 0)
-                {
-                    // full path to file in temp location
-                    var filePath = Path.GetTempFileName(); //we are using Temp file name just for the example. Add your own file path.
-                    filePaths.Add(filePath);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-                }
+                System.IO.File.Delete(fileName);
+            }
+            System.IO.Directory.CreateDirectory("UploadedCSV");
+            if (System.IO.File.Exists("UploadedCSV\\"+fileName))
+            {
+                System.IO.File.Delete("UploadedCSV\\" + fileName);
             }
 
-            // process uploaded files
-            // Don't rely on or trust the FileName property without validation.
+            // Create new local file and copy contents of uploaded file
+            using (var localFile = System.IO.File.OpenWrite(fileName))
+            using (var uploadedFile = file.OpenReadStream())
+            {
+                uploadedFile.CopyTo(localFile);
+                System.Diagnostics.Debug.WriteLine(Directory.GetCurrentDirectory() + "\\" + fileName);
 
-            return Ok(new { count = files.Count, size, filePaths });
+            }
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Copy(Directory.GetCurrentDirectory() + "\\" + fileName, Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName);
+            }
 
+            ViewBag.Message = "File successfully uploaded";
+            System.Diagnostics.Debug.WriteLine("This is sparta");
+            DataTable dTable;
+            string fPath = Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName;
+            dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);
+            
+            System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
+            vcfFileName=DatatableToVcf.ConvertDatatableToVcf(dTable, Path.GetFileNameWithoutExtension(Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName));
+
+            return View();
         }
 
         public IActionResult Index()
         {
             return View();
         }
+        public async Task<IActionResult> Download()
+        {
+            string filename = vcfFileName;
+            if (filename == null)
+                return Content("filename not present");
 
+            var path = Path.Combine(
+                           Directory.GetCurrentDirectory(),filename);
 
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, GetContentType(path), Path.GetFileName(path));
+        }
+
+        private string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.ms-word"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},  
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".vcf", "text/vcard"},
+                {".csv", "text/csv"}
+            };
+        }
 
         public IActionResult Privacy()
         {
