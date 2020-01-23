@@ -43,11 +43,9 @@ namespace CsvToVcf.Controllers
             {
                 System.IO.File.Delete(fileName);
             }
-            System.IO.Directory.CreateDirectory("UploadedCSV");
-            if (System.IO.File.Exists("UploadedCSV\\"+fileName))
-            {
-                System.IO.File.Delete("UploadedCSV\\" + fileName);
-            }
+            if (System.IO.Directory.Exists("UploadedCSV"))
+                System.IO.Directory.Delete("UploadedCSV", true);
+            System.IO.Directory.CreateDirectory("UploadedCSV");            
 
             // Create new local file and copy contents of uploaded file
             using (var localFile = System.IO.File.OpenWrite(fileName))
@@ -70,9 +68,8 @@ namespace CsvToVcf.Controllers
             System.Diagnostics.Debug.WriteLine("This is sparta");
             DataTable dTable;
             string fPath = Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + newFileName;
-            dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);
-            
-            System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
+            dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);            
+           // System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
             vcfFileName=DatatableToVcf.ConvertDatatableToVcf(dTable, Path.GetFileNameWithoutExtension(Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + newFileName));
 
             return View();
@@ -89,7 +86,7 @@ namespace CsvToVcf.Controllers
                 return Content("filename not present");
 
             var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),filename);
+                           Directory.GetCurrentDirectory() + "\\NewVCF", filename);
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
@@ -111,14 +108,6 @@ namespace CsvToVcf.Controllers
             return new Dictionary<string, string>
             {
                 {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformatsofficedocument.spreadsheetml.sheet"},  
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
                 {".vcf", "text/vcard"},
                 {".csv", "text/csv"}
             };
