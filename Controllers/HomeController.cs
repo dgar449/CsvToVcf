@@ -34,7 +34,9 @@ namespace CsvToVcf.Controllers
         public async Task<IActionResult> Index(IFormFile file)
         {
             // Extract file name from whatever was posted by browser
+            Random rnd = new Random();
             var fileName = System.IO.Path.GetFileName(file.FileName);
+            var newFileName = rnd.Next(100, 999) + fileName;
 
             // If file with same name exists delete it
             if (System.IO.File.Exists(fileName))
@@ -57,17 +59,21 @@ namespace CsvToVcf.Controllers
             }
             if (System.IO.File.Exists(fileName))
             {
-                System.IO.File.Copy(Directory.GetCurrentDirectory() + "\\" + fileName, Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName);
+                System.IO.File.Copy(Directory.GetCurrentDirectory() + "\\" + fileName, Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + newFileName);
+            }
+            if (System.IO.File.Exists(fileName))
+            {
+                System.IO.File.Delete(fileName);
             }
 
             ViewBag.Message = "File successfully uploaded";
             System.Diagnostics.Debug.WriteLine("This is sparta");
             DataTable dTable;
-            string fPath = Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName;
+            string fPath = Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + newFileName;
             dTable = CsvToDatatable.ConvertCSVtoDataTable(fPath);
             
             System.Diagnostics.Debug.WriteLine(dTable.Rows.Count);
-            vcfFileName=DatatableToVcf.ConvertDatatableToVcf(dTable, Path.GetFileNameWithoutExtension(Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + fileName));
+            vcfFileName=DatatableToVcf.ConvertDatatableToVcf(dTable, Path.GetFileNameWithoutExtension(Directory.GetCurrentDirectory() + "\\UploadedCSV\\" + newFileName));
 
             return View();
         }
