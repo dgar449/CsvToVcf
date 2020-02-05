@@ -7,7 +7,7 @@
     <h1>Welcome to the CSV to VCF online converter</h1>
 </div>
 <div>
-    <form method="post" enctype="multipart/form-data">
+    <form class="form-group" method="post" enctype="multipart/form-data" name="input-form">
         <div class="file-drop-area">
             <span class="fake-btn">Choose files</span>
             <span class="file-msg">or drag and drop files here</span>
@@ -17,11 +17,12 @@
 
         <br>
         <p>
-            <button class="convert-button" type="submit">Convert</button>
+            <button class="convert-button" onclick="return IsEmpty();" type="submit">Convert</button>
             @*<a id="ConvertToVcf" href="#" class="btn">Convert</a>*@
         </p>
     </form>
-    <a class="convert-button" asp-action="Download"> Download </a>
+    <a asp-action="Download"><p style="display:inline;" class="convert-button">Download</p></a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="~/js/pretty.js"></script>
+<script src="~/js/fieldEmpty.js"></script>

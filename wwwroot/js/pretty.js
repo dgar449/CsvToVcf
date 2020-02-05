@@ -16,7 +16,7 @@ $fileInput.on('change', function () {
     var filesCount = $(this)[0].files.length;
     var $textContainer = $(this).prev();
 
-    if (filesCount == 1) {
+    if (filesCount === 1) {
         // if single file is selected, show file name
         var fileName = $(this).val().split('\\').pop();
         $textContainer.text(fileName);
