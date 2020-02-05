@@ -2,20 +2,26 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link href="~/css/pretty.css" rel="stylesheet">
 <div>
     <h1>Welcome to the CSV to VCF online converter</h1>
 </div>
 <div>
-    <p>Upload your csv file here</p><br>
     <form method="post" enctype="multipart/form-data">
-          <input name="file" type="file" /><br>
-        
+        <div class="file-drop-area">
+            <span class="fake-btn">Choose files</span>
+            <span class="file-msg">or drag and drop files here</span>
+            <input class="file-input" name="file" type="file" multiple>
+            <br>
+        </div>
+
+        <br>
         <p>
-            <button type="submit">Convert</button>
+            <button class="convert-button" type="submit">Convert</button>
             @*<a id="ConvertToVcf" href="#" class="btn">Convert</a>*@
         </p>
     </form>
-    <form method="post" enctype="multipart/form-data">
-        <a asp-action="Download">Download</a>
-    </form>
+    <a class="convert-button" asp-action="Download"> Download </a>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="~/js/pretty.js"></script>

@@ -6,3 +6,5 @@ Try these out:
 https://code-maze.com/file-upload-aspnetcore-mvc/
 https://www.c-sharpcorner.com/article/upload-download-files-in-asp-net-core-2-0/
 https://gunnarpeipman.com/aspnet-core-file-uploads/
+
+https://codepen.io/prasanjit/pen/NxjZMO
